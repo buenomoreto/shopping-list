@@ -1,51 +1,59 @@
-import { StyleSheet, View, Text} from 'react-native';
+import { useEffect } from 'react';
+import { StyleSheet, BackHandler, Alert} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import  Shopping from './src/screen/shopping';
 import Header from './src/components/header';
 
+import ListProvider from './src/contexts/list';
+
 const Stack = createStackNavigator();
 
-function shoppingScreen() {
+function ShoppingScreen() {
   return (
     <Shopping />
   );
 }
-// import AppLoading from 'expo-app-loading';
 
-// import {
-//   useFonts,
-//   Roboto_300Light,
-//   Roboto_400Regular,
-//   Roboto_500Medium,
-//   Roboto_700Bold,
-// } from '@expo-google-fonts/roboto';
+const backAction = () => {
+  Alert.alert("Atenção!", "Tem certeza que deseja sair?", [
+    {
+      text: "Cancelar",
+      onPress: () => null,
+      style: "cancel"
+    },
+    { 
+      text: "SIM", 
+      onPress: () => BackHandler.exitApp() 
+    }
+  ]);
+  return true;
+};
 
-export default function App() {
+export default function App() { 
 
-  // let [fontsLoaded] = useFonts({
-  //   Roboto_300Light,
-  //   Roboto_400Regular,
-  //   Roboto_500Medium,
-  //   Roboto_700Bold,
-  // });
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
   
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // } 
+    return () =>
+    BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Shopping"
-          component={shoppingScreen}
-          options={{ 
-            header: () => (
-              <Header />
-            )
-         }}
-        />
-      </Stack.Navigator>
+      <ListProvider>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Shopping"
+            component={ShoppingScreen}
+            options={{ 
+              header: () => (
+                <Header />
+              )
+          }}
+          />
+        </Stack.Navigator>
+      </ListProvider>
     </NavigationContainer>
   );
 }
