@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
-import { header } from './header';
+import { style } from './style';
 import { ListShopping } from '../../contexts/list'
 
 export default function Header() {
@@ -16,12 +16,12 @@ export default function Header() {
  
 
   return (
-    <View style={header.container}>
-      <Text style={header.title}>
+    <View style={style.container}>
+      <Text style={style.title}>
         Lista de compras
       </Text>
       {list && list.length ? 
-        <Text style={header.title}>
+        <Text style={style.title}>
         {count.length}/{list.length}
         </Text> 
       : null

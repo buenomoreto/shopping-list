@@ -1,7 +1,7 @@
 
 import { useState, useContext }  from 'react';
 import { SafeAreaView, Text, View, TextInput, TouchableOpacity, Alert, ScrollView} from 'react-native';
-import { listing } from './listing';
+import { style } from './style';
 import { AntDesign } from '@expo/vector-icons'; 
 import { ListShopping } from '../../contexts/list';
 
@@ -33,7 +33,7 @@ export default function Listing() {
       {text: 'Excluir', onPress: () => removeItemList(index)},
     ]);
   }
-  
+
   function removeItemList(index) {
     const newlistShopping  = listShopping.filter((item, i) => i != index);
     setListShopping(newlistShopping);
@@ -46,22 +46,22 @@ export default function Listing() {
   }  
 
   return (
-    <SafeAreaView style={listing.container}>
+    <SafeAreaView style={style.container}>
       { listShopping.length == 0 ? 
-        <View style={listing.containerListing}>
-          <Text style={listing.text}>Nenhum item na lista</Text> 
+        <View style={style.containerListing}>
+          <Text style={style.text}>Nenhum item na lista</Text> 
         </View>
       : null }
-        <View style={listing.containerListing}>
+        <View style={style.containerListing}>
           <ScrollView >
             { listShopping.map((item, i) => {
               return (
-                <View key={i} style={[listing.boxItem, {backgroundColor: item.checked ? 'rgba(63, 175, 71, 0.2)' : '#fff'}]}>
-                  <TouchableOpacity style={listing.boxItemButton} onPress={() => checkedItem(i)}>
+                <View key={i} style={[style.boxItem, {backgroundColor: item.checked ? 'rgba(63, 175, 71, 0.2)' : '#fff'}]}>
+                  <TouchableOpacity style={style.boxItemButton} onPress={() => checkedItem(i)}>
                     <View 
-                      style={item.checked ? listing.checkboxChecked : listing.checkbox}
+                      style={item.checked ? style.checkboxChecked : style.checkbox}
                     /> 
-                    <Text style={item.checked ? listing.itemChecked : listing.item}>{item.name}</Text>
+                    <Text style={item.checked ? style.itemChecked : style.item}>{item.name}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => verifyRemoveItem(i, item.name)}>
                     <AntDesign name="closecircleo" size={20} color="red" />
@@ -71,16 +71,16 @@ export default function Listing() {
             })}
           </ScrollView>
         </View>
-      <View style={listing.containerInput}>
+      <View style={style.containerInput}>
         <TextInput
-          style={listing.input}
+          style={style.input}
           ref={input => { this.textInput = input }}
           onChangeText={text  => setItem({name: text, checked: false})}
           placeholder="Novo item da lista"
         />
         <TouchableOpacity
           onPress={addItemName}
-          style={listing.button}
+          style={style.button}
         >
           <Text>+</Text>
         </TouchableOpacity>
